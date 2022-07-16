@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class CarFinalClasificationDto {
+    private int carIndex;
     private short position;
     private short numLaps;
     private short gridPosition;

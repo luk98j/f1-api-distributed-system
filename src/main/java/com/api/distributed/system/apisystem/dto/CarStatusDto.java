@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CarStatusDto {
+    private int carIndex;
     private ActualTyreCompound actualTyreCompound;
     private short tyresAgeLaps;
     private float ersStoreEnergy;

@@ -9,6 +9,7 @@ import com.api.distributed.system.apisystem.enums.Weather;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class PacketSessionDto extends MainDto {
     private BigInteger sessionid;
     private Weather weather;

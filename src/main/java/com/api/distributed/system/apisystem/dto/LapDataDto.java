@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LapDataDto {
+    private int carIndex;
     private float lastLapTime;
     private float currentLapTime;
     private int sector1TimeInMS;
@@ -29,4 +30,29 @@ public class LapDataDto {
     private float pitLaneTimeInLaneInMS;
     private float pitStopTimerInMS;
     private float pitStopShouldServePen;
+
+    @Override
+    public String toString() {
+        return "LapDataDto{" +
+                "lastLapTime=" + lastLapTime +
+                ", currentLapTime=" + currentLapTime +
+                ", sector1TimeInMS=" + sector1TimeInMS +
+                ", sector2TimeInMS=" + sector2TimeInMS +
+                ", carPosition=" + carPosition +
+                ", currentLapNum=" + currentLapNum +
+                ", pitStatus=" + pitStatus +
+                ", sector=" + sector +
+                ", currentLapInvalid=" + currentLapInvalid +
+                ", penalties=" + penalties +
+                ", warnings=" + warnings +
+                ", numUnservedDriveThroughPens=" + numUnservedDriveThroughPens +
+                ", numUnservedStopGoPens=" + numUnservedStopGoPens +
+                ", driverStatus=" + driverStatus +
+                ", resultStatus=" + resultStatus +
+                ", pitLaneTimerActive=" + pitLaneTimerActive +
+                ", pitLaneTimeInLaneInMS=" + pitLaneTimeInLaneInMS +
+                ", pitStopTimerInMS=" + pitStopTimerInMS +
+                ", pitStopShouldServePen=" + pitStopShouldServePen +
+                '}';
+    }
 }

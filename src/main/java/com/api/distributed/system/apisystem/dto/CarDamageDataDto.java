@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CarDamageDataDto extends MainDto {
+    private int carIndex;
     private float tyresWear[] = new float[Const.TYRES];
     private short tyresDamage[] = new short[Const.TYRES];
     private short brakesDamage[] = new short[Const.TYRES];
