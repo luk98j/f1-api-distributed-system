@@ -17,6 +17,6 @@ public class ParticipantController {
     public ResponseEntity<?> postParticipant(@RequestHeader("Unique-Key") String key,
                                      @RequestBody ParticipantListDto participantListDto){
         System.out.println(participantListDto.getParticipantDtoList().toString());
-        return ResponseEntity.ok("XD");
+        return ResponseEntity.ok("Object saved");
     }
 }

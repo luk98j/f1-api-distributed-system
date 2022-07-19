@@ -18,6 +18,7 @@ public class LapDataDto {
     private short carPosition;
     private short currentLapNum;
     private PitStatus pitStatus;
+    private short numPitStops;
     private Sector sector;
     private short currentLapInvalid;
     private short penalties;

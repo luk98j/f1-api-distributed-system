@@ -1,0 +1,1 @@
+db.<collection_name>.deleteMany({}) - to delete all date from collection

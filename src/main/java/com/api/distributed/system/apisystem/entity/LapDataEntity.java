@@ -1,6 +1,7 @@
 package com.api.distributed.system.apisystem.entity;
 
-import com.api.distributed.system.apisystem.dto.CarStatusDto;
+import com.api.distributed.system.apisystem.dto.CarFinalClasificationDto;
+import com.api.distributed.system.apisystem.dto.LapDataDto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,11 +13,11 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Document("car.status")
+@Document("lap.data")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class CarStatusEntity {
+public class LapDataEntity {
     @Id
     private String id;
     @NonNull
@@ -24,7 +25,7 @@ public class CarStatusEntity {
     @NonNull
     private String key;
     @NonNull
-    private List<CarStatusDto> carStatusDtoList;
+    private List<LapDataDto> lapDataDtoList;
     @NonNull
     private Timestamp timestamp;
 }

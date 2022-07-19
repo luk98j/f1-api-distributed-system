@@ -21,6 +21,6 @@ public class LapDataController {
 //            System.out.println(lapDataDto.toString());
 //        }
 
-        return ResponseEntity.ok("XD");
+        return ResponseEntity.ok("Object saved");
     }
 }

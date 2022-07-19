@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Document("car-telemetry")
+@Document("car.telemetry")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor

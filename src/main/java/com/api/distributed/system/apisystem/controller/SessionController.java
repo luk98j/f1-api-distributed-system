@@ -16,6 +16,6 @@ public class SessionController {
     public ResponseEntity<?> postSession(@RequestHeader("Unique-Key") String key,
                                      @RequestBody PacketSessionDto packetSessionDto){
         System.out.println(packetSessionDto.toString());
-        return ResponseEntity.ok("XD");
+        return ResponseEntity.ok("Object saved");
     }
 }

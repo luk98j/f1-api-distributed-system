@@ -1,6 +1,5 @@
 package com.api.distributed.system.apisystem.entity;
 
-import com.api.distributed.system.apisystem.dto.CarStatusDto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -9,14 +8,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.List;
 
-@Document("car.status")
+@Document("race.event")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class CarStatusEntity {
+public class RaceEventEntity {
     @Id
     private String id;
     @NonNull
@@ -24,7 +21,7 @@ public class CarStatusEntity {
     @NonNull
     private String key;
     @NonNull
-    private List<CarStatusDto> carStatusDtoList;
+    private String eventKey;
     @NonNull
-    private Timestamp timestamp;
+    private String value;
 }

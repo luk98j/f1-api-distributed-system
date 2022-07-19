@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Document("final-classification")
+@Document("final.classification")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
