@@ -1,6 +1,7 @@
 package com.api.distributed.system.apisystem.dto;
 
 import com.api.distributed.system.apisystem.enums.Driver;
+import com.api.distributed.system.apisystem.enums.ResultStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,5 @@ public class ParticipantDto {
     private short networkId;
     private String name;
     private short yourTelemetry;
+    private ResultStatus resultStatus;
 }

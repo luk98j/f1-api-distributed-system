@@ -1,13 +1,22 @@
 package com.api.distributed.system.apisystem.controller;
 
 import com.api.distributed.system.apisystem.dto.*;
+import com.api.distributed.system.apisystem.entity.FastestLapEntity;
+import com.api.distributed.system.apisystem.entity.ParticipantEntity;
 import com.api.distributed.system.apisystem.entity.RaceEventEntity;
+import com.api.distributed.system.apisystem.enums.ResultStatus;
+import com.api.distributed.system.apisystem.repository.FastestLapRepository;
+import com.api.distributed.system.apisystem.repository.ParticipantRepository;
 import com.api.distributed.system.apisystem.repository.RaceEventRepository;
+import com.api.distributed.system.apisystem.service.SessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/event")
@@ -16,6 +25,12 @@ public class EventController {
 
     @Autowired
     private RaceEventRepository raceEventRepository;
+    @Autowired
+    private SessionService sessionService;
+    @Autowired
+    private FastestLapRepository fastestLapRepository;
+    @Autowired
+    private ParticipantRepository participantRepository;
 
     @PostMapping("/main-event")
     public ResponseEntity<?> postSession(@RequestHeader("Unique-Key") String key,
@@ -28,10 +43,9 @@ public class EventController {
     @PostMapping("/fastest-lap")
     public ResponseEntity<?> postFastestLap(@RequestHeader("Unique-Key") String key,
                                                 @RequestBody FastestLapDto fastestLapDto){
-        //todo
-        //Participant table should be edited here
-        raceEventRepository.save(new RaceEventEntity(fastestLapDto.getSessionUid(),key,
-                "fastes-lap",String.valueOf(fastestLapDto.getCarId())));
+
+        fastestLapRepository.save(new FastestLapEntity(fastestLapDto.getSessionUid(),
+                key, fastestLapDto, new Timestamp(new Date().getTime())));
         return ResponseEntity.ok("Object saved");
     }
 
@@ -40,6 +54,14 @@ public class EventController {
                                             @RequestBody CarEventDto carEventDto){
         //todo
         //Participant table should be edited here
+        if(participantRepository.existsBySessionUidAndKey(carEventDto.getSessionUid(), key)){
+            ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(carEventDto.getSessionUid(), key);
+            ParticipantDto participantDto = participantEntity.getParticipantListDtoList().get(carEventDto.getCarId());
+            participantDto.setResultStatus(ResultStatus.RETIRED);
+
+        } else {
+
+        }
         return ResponseEntity.ok("Object saved");
     }
 
