@@ -1,7 +1,8 @@
-package com.api.distributed.system.apisystem.dto;
+package com.f1distributedsystem.f1clientapp.dto.impl;
 
 import com.api.distributed.system.apisystem.data.MarshalZone;
 import com.api.distributed.system.apisystem.data.WeatherForecastSample;
+import com.api.distributed.system.apisystem.dto.MainDto;
 import com.api.distributed.system.apisystem.enums.SafetyCarStatus;
 import com.api.distributed.system.apisystem.enums.SessionType;
 import com.api.distributed.system.apisystem.enums.Track;
@@ -9,15 +10,14 @@ import com.api.distributed.system.apisystem.enums.Weather;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class PacketSessionDto extends MainDto {
     private BigInteger sessionid;
     private Weather weather;
