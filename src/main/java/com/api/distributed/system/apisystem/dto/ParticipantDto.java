@@ -17,5 +17,4 @@ public class ParticipantDto {
     private short networkId;
     private String name;
     private short yourTelemetry;
-    private ResultStatus resultStatus;
 }

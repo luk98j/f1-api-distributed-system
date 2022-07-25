@@ -5,6 +5,7 @@ import com.api.distributed.system.apisystem.dto.CarTelemetryDto;
 import com.api.distributed.system.apisystem.dto.CarTelemetryList;
 import com.api.distributed.system.apisystem.entity.CarTelemetryEntity;
 import com.api.distributed.system.apisystem.repository.CarTelemetryRepository;
+import com.api.distributed.system.apisystem.service.CarTelemetryService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,23 +22,16 @@ import java.util.Date;
 @AllArgsConstructor
 public class CarTelemetryController {
     @Autowired
-    private CarTelemetryRepository carTelemetryRepository;
+    private CarTelemetryService carTelemetryService;
 
     @PostMapping("/post-telemetry")
-    public ResponseEntity<?> postStatus(@RequestHeader("Unique-Key") String key,
+    public ResponseEntity<String> postStatus(@RequestHeader("Unique-Key") String key,
                                         @RequestBody CarTelemetryList carTelemetryList){
-        carTelemetryRepository.save(new CarTelemetryEntity(carTelemetryList.getSessionUid(),key, carTelemetryList.getCarTelemetryDtoList(),
-                new Timestamp(new Date().getTime())));
-        return ResponseEntity.ok("Objected saved");
+        return carTelemetryService.postStatus(key, carTelemetryList);
     }
 
     @GetMapping("/get-telemetry")
     public ResponseEntity<CarTelemetryEntity> getTelemetry(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        CarTelemetryEntity carTelemetryEntity = carTelemetryRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid,key);
-        if(carTelemetryEntity != null){
-            return ResponseEntity.ok(carTelemetryEntity);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        return carTelemetryService.getTelemetry(sessionUid, key);
     }
 }

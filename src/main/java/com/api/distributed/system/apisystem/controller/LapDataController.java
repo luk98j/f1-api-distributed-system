@@ -5,6 +5,7 @@ import com.api.distributed.system.apisystem.dto.LapDataDto;
 import com.api.distributed.system.apisystem.dto.LapDataList;
 import com.api.distributed.system.apisystem.entity.LapDataEntity;
 import com.api.distributed.system.apisystem.repository.LapDataRepository;
+import com.api.distributed.system.apisystem.service.LapDataService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class LapDataController {
     @Autowired
-    private LapDataRepository lapDataRepository;
+    private LapDataService lapDataService;
 
     @PostMapping("/post-lap")
-    public ResponseEntity<?> postLap(@RequestHeader("Unique-Key") String key,
+    public ResponseEntity<String> postLap(@RequestHeader("Unique-Key") String key,
                                          @RequestBody LapDataList lapDataList){
-        lapDataRepository.save(new LapDataEntity(lapDataList.getSessionUid(), key, lapDataList.getLapDataDtoList(),
-                new Timestamp(new Date().getTime())));
-        return ResponseEntity.ok("Object saved");
+        return lapDataService.postData(key, lapDataList);
     }
 }

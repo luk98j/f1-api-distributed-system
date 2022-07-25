@@ -2,6 +2,7 @@ package com.api.distributed.system.apisystem.controller;
 
 import com.api.distributed.system.apisystem.entity.SessionEntity;
 import com.api.distributed.system.apisystem.repository.PacketSessionRepository;
+import com.api.distributed.system.apisystem.service.SessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,11 @@ import java.util.Date;
 public class SessionController {
 
     @Autowired
-    private PacketSessionRepository packetSessionRepository;
+    private SessionService sessionService;
 
     @PostMapping("/post-session")
-    public ResponseEntity<?> postSession(@RequestHeader("Unique-Key") String key,
+    public ResponseEntity<String> postSession(@RequestHeader("Unique-Key") String key,
                                      @RequestBody com.f1distributedsystem.f1clientapp.dto.impl.PacketSessionDto packetSessionDto){
-        packetSessionRepository.save(new SessionEntity(packetSessionDto.getSessionid(), key, packetSessionDto,
-                new Timestamp(new Date().getTime())));
-        return ResponseEntity.ok("Object saved");
+        return sessionService.postSession(key, packetSessionDto);
     }
 }

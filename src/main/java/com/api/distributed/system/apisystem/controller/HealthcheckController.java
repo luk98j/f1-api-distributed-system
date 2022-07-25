@@ -24,7 +24,7 @@ public class HealthcheckController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getHealthCheck(){
+    public ResponseEntity<String> getHealthCheck(){
         healthcheckRepository.save(new Healthcheck("healthcheck", new Timestamp(System.currentTimeMillis())));
         return ResponseEntity.ok("Service is working");
     }

@@ -10,19 +10,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
-@Document("session")
+@Document("users.key")
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
-public class SessionEntity {
+@RequiredArgsConstructor
+public class KeyEntity {
     @Id
     private String id;
     @NonNull
     private BigInteger sessionUid;
     @NonNull
     private String key;
-    @NonNull
-    private com.f1distributedsystem.f1clientapp.dto.impl.PacketSessionDto packetSessionDto;
     @NonNull
     private Timestamp timestamp;
 }

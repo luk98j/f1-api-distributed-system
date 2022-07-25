@@ -4,6 +4,7 @@ import com.api.distributed.system.apisystem.dto.CarDamageList;
 import com.api.distributed.system.apisystem.dto.CarStatusList;
 import com.api.distributed.system.apisystem.entity.CarStatusEntity;
 import com.api.distributed.system.apisystem.repository.CarStatusRepository;
+import com.api.distributed.system.apisystem.service.CarStatusService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,23 +21,16 @@ import java.util.Date;
 @AllArgsConstructor
 public class CarStatusController {
     @Autowired
-    private CarStatusRepository carStatusRepository;
+    private CarStatusService carStatusService;
 
     @PostMapping("/post-status")
-    public ResponseEntity<?> postStatus(@RequestHeader("Unique-Key") String key,
+    public ResponseEntity<String> postStatus(@RequestHeader("Unique-Key") String key,
                                         @RequestBody CarStatusList carStatusList){
-        carStatusRepository.save(new CarStatusEntity(carStatusList.getSessionUid(), key,
-                carStatusList.getCarStatusDtoList(), new Timestamp(new Date().getTime())));
-        return ResponseEntity.ok("Objected saved");
+        return carStatusService.postData(key, carStatusList);
     }
 
     @GetMapping("/get-status")
     public ResponseEntity<CarStatusEntity> getStatus(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        CarStatusEntity carStatusEntity = carStatusRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid,key);
-        if(carStatusEntity != null){
-            return ResponseEntity.ok(carStatusEntity);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        return carStatusService.getData(sessionUid, key);
     }
 }

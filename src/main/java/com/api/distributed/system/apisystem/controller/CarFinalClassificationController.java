@@ -4,6 +4,7 @@ import com.api.distributed.system.apisystem.dto.CarStatusList;
 import com.api.distributed.system.apisystem.dto.FinalClasificationList;
 import com.api.distributed.system.apisystem.entity.FinalClassificationEntity;
 import com.api.distributed.system.apisystem.repository.FinalClassificationRepository;
+import com.api.distributed.system.apisystem.service.CarFinalClassificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,23 +22,17 @@ import java.util.Date;
 public class CarFinalClassificationController {
 
     @Autowired
-    private FinalClassificationRepository finalClassificationRepository;
+    private CarFinalClassificationService carFinalClassificationService;
+
 
     @PostMapping("/post-clasification")
-    public ResponseEntity<?> postClasification(@RequestHeader("Unique-Key") String key,
+    public ResponseEntity<String> postClasification(@RequestHeader("Unique-Key") String key,
                                         @RequestBody FinalClasificationList finalClasificationList){
-        finalClassificationRepository.save(new FinalClassificationEntity(finalClasificationList.getSessionUid(), key,
-                finalClasificationList.getList(), new Timestamp(new Date().getTime())));
-        return ResponseEntity.ok("Object saved");
+        return carFinalClassificationService.postData(key, finalClasificationList);
     }
 
     @GetMapping("/get-classification")
     public ResponseEntity<FinalClassificationEntity> getFinalClassification(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        FinalClassificationEntity finalClassificationEntity = finalClassificationRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid,key);
-        if(finalClassificationEntity!=null){
-            return ResponseEntity.ok(finalClassificationEntity);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        return carFinalClassificationService.getFinalClassification(sessionUid,key);
     }
 }

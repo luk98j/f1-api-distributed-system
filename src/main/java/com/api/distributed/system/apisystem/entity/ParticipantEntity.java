@@ -1,9 +1,6 @@
 package com.api.distributed.system.apisystem.entity;
 
-import com.api.distributed.system.apisystem.dto.LapDataDto;
-import com.api.distributed.system.apisystem.dto.ParticipantDto;
-import com.api.distributed.system.apisystem.dto.ParticipantListDto;
-import com.api.distributed.system.apisystem.enums.ResultStatus;
+import com.api.distributed.system.apisystem.dto.ParticipantExtendDto;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,7 +23,7 @@ public class ParticipantEntity {
     @NonNull
     private String key;
     @NonNull
-    private List<ParticipantDto> participantListDtoList;
+    private List<ParticipantExtendDto> participantListDtoList;
     @NonNull
     private Timestamp timestamp;
 

@@ -4,6 +4,7 @@ import com.api.distributed.system.apisystem.dto.CarDamageList;
 import com.api.distributed.system.apisystem.dto.EventDto;
 import com.api.distributed.system.apisystem.entity.CarDamageEntity;
 import com.api.distributed.system.apisystem.repository.CarDamageRepository;
+import com.api.distributed.system.apisystem.service.CarDamageService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,23 +22,16 @@ import java.util.Date;
 public class CarDamageController {
 
     @Autowired
-    private CarDamageRepository carDamageRepository;
+    private CarDamageService carDamageService;
 
     @PostMapping("/post-damage")
-    public ResponseEntity<?> postDamage(@RequestHeader("Unique-Key") String key,
+    public ResponseEntity<String> postDamage(@RequestHeader("Unique-Key") String key,
                                         @RequestBody CarDamageList carDamageList){
-        carDamageRepository.save(new CarDamageEntity(carDamageList.getSessionUid(),key,
-                carDamageList.getCarDamageDataDtoList(), new Timestamp(new Date().getTime())));
-        return ResponseEntity.ok("Object saved");
+        return carDamageService.saveData(key,carDamageList);
     }
 
     @GetMapping("/get-damage")
     public ResponseEntity<CarDamageEntity> getDamage(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        CarDamageEntity carDamageEntity = carDamageRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid, key);
-        if(carDamageEntity!=null){
-            return ResponseEntity.ok(carDamageEntity);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+       return carDamageService.getDataAboutDamage(sessionUid,key);
     }
 }
