@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,11 +32,12 @@ public class ParticipantService {
     private KeyRepository keyRepository;
 
 
+
     public ResponseEntity<String> postParticipant(String key,
                                                   ParticipantListDto participantListDto){
         System.out.println("Recived participant");
         System.out.println(participantListDto.toString());
-        if(!participantRepository.existsBySessionUidAndKey(participantListDto.getSessionUid(), key)){
+        if(!checkIfParticipantTableExistsWithKeyAndSessionId(participantListDto.getSessionUid(), key)){
             keyRepository.save(new KeyEntity(participantListDto.getSessionUid(), key, new Timestamp(new Date().getTime())));
             List<ParticipantExtendDto> participantExtendDtoList = new ArrayList<>();
             for (ParticipantDto participantDto: participantListDto.getParticipantDtoList()){
@@ -59,4 +61,10 @@ public class ParticipantService {
             return ResponseEntity.ok("Object exists");
         }
     }
+
+
+    private boolean checkIfParticipantTableExistsWithKeyAndSessionId(BigInteger sessionId, String sessionKey){
+        return participantRepository.existsBySessionUidAndKey(sessionId, sessionKey);
+    }
+
 }

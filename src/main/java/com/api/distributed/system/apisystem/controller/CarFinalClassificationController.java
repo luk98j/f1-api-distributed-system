@@ -31,8 +31,8 @@ public class CarFinalClassificationController {
         return carFinalClassificationService.postData(key, finalClasificationList);
     }
 
-    @GetMapping("/get-classification")
-    public ResponseEntity<FinalClassificationEntity> getFinalClassification(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        return carFinalClassificationService.getFinalClassification(sessionUid,key);
-    }
+//    @GetMapping("/get-classification")
+//    public ResponseEntity<FinalClassificationDto> getFinalClassification(@RequestParam BigInteger sessionUid, @RequestParam String key){
+//        return carFinalClassificationService.getFinalClassification(sessionUid,key);
+//    }
 }

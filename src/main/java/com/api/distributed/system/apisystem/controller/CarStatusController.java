@@ -29,8 +29,8 @@ public class CarStatusController {
         return carStatusService.postData(key, carStatusList);
     }
 
-    @GetMapping("/get-status")
-    public ResponseEntity<CarStatusEntity> getStatus(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        return carStatusService.getData(sessionUid, key);
-    }
+//    @GetMapping("/get-status")
+//    public ResponseEntity<CarStatusDto> getStatus(@RequestParam BigInteger sessionUid, @RequestParam String key){
+//        return carStatusService.getData(sessionUid, key);
+//    }
 }

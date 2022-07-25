@@ -1,9 +1,6 @@
 package com.api.distributed.system.apisystem.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,6 +11,8 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class KeyEntity {
     @Id
     private String id;

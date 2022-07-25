@@ -21,9 +21,6 @@ import java.util.Date;
 public class SessionService {
 
     @Autowired
-    private ParticipantRepository participantRepository;
-
-    @Autowired
     private PacketSessionRepository packetSessionRepository;
 
 
@@ -34,7 +31,5 @@ public class SessionService {
         return ResponseEntity.ok("Object saved");
     }
 
-    public boolean checkIfParticipantTableExistsWithKeyAndSessionId(BigInteger sessionId, String sessionKey){
-        return participantRepository.existsBySessionUidAndKey(sessionId, sessionKey);
-    }
+
 }

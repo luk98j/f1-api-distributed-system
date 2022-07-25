@@ -30,8 +30,8 @@ public class CarDamageController {
         return carDamageService.saveData(key,carDamageList);
     }
 
-    @GetMapping("/get-damage")
-    public ResponseEntity<CarDamageEntity> getDamage(@RequestParam BigInteger sessionUid, @RequestParam String key){
-       return carDamageService.getDataAboutDamage(sessionUid,key);
-    }
+//    @GetMapping("/get-damage")
+//    public ResponseEntity<CarDamageDto> getDamage(@RequestParam BigInteger sessionUid, @RequestParam String key){
+//       return carDamageService.getDataAboutDamage(sessionUid,key);
+//    }
 }

@@ -30,8 +30,8 @@ public class CarTelemetryController {
         return carTelemetryService.postStatus(key, carTelemetryList);
     }
 
-    @GetMapping("/get-telemetry")
-    public ResponseEntity<CarTelemetryEntity> getTelemetry(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        return carTelemetryService.getTelemetry(sessionUid, key);
-    }
+//    @GetMapping("/get-telemetry")
+//    public ResponseEntity<CarTelemetryDto> getTelemetry(@RequestParam BigInteger sessionUid, @RequestParam String key){
+//        return carTelemetryService.getTelemetry(sessionUid, key);
+//    }
 }
