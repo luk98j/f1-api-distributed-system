@@ -1,6 +1,8 @@
 package com.api.distributed.system.apisystem.service;
 
 import com.api.distributed.system.apisystem.dto.FinalClasificationList;
+import com.api.distributed.system.apisystem.entity.BasicEntity;
+import com.api.distributed.system.apisystem.entity.CarDamageEntity;
 import com.api.distributed.system.apisystem.entity.FinalClassificationEntity;
 import com.api.distributed.system.apisystem.repository.FinalClassificationRepository;
 import lombok.AllArgsConstructor;
@@ -15,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class CarFinalClassificationService {
+public class CarFinalClassificationService extends BasicService{
     @Autowired
     private FinalClassificationRepository finalClassificationRepository;
 
@@ -35,5 +38,15 @@ public class CarFinalClassificationService {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    @Override
+    public List<FinalClassificationEntity> getListByKey(String key){
+        return finalClassificationRepository.findAllByKey(key);
+    }
+
+    @Override
+    public <T extends BasicEntity> void deleteEntity(T tClass) {
+        finalClassificationRepository.delete((FinalClassificationEntity) tClass);
     }
 }

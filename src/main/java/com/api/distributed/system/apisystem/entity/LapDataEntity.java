@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class LapDataEntity {
+public class LapDataEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ParticipantEntity {
+public class ParticipantEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

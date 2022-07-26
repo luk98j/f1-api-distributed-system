@@ -1,9 +1,7 @@
 package com.api.distributed.system.apisystem.service;
 
 import com.api.distributed.system.apisystem.dto.*;
-import com.api.distributed.system.apisystem.entity.FastestLapEntity;
-import com.api.distributed.system.apisystem.entity.ParticipantEntity;
-import com.api.distributed.system.apisystem.entity.RaceEventEntity;
+import com.api.distributed.system.apisystem.entity.*;
 import com.api.distributed.system.apisystem.enums.PenaltyType;
 import com.api.distributed.system.apisystem.enums.PitStatus;
 import com.api.distributed.system.apisystem.enums.ResultStatus;
@@ -20,17 +18,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class EventService {
+public class EventService extends BasicService{
 
     @Autowired
     private RaceEventRepository raceEventRepository;
-    @Autowired
-    private SessionService sessionService;
-    @Autowired
-    private FastestLapRepository fastestLapRepository;
+
     @Autowired
     private ParticipantRepository participantRepository;
 
@@ -40,27 +36,6 @@ public class EventService {
                 eventDto.getEventName(),""));
         return ResponseEntity.ok("Object saved");
     }
-
-
-    public ResponseEntity<String> postFastestLap(String key,
-                                                 FastestLapDto fastestLapDto){
-        fastestLapRepository.save(new FastestLapEntity(fastestLapDto.getSessionUid(),
-                key, fastestLapDto, new Timestamp(new Date().getTime())));
-        if(participantRepository.existsBySessionUidAndKey(fastestLapDto.getSessionUid(), key)){
-            ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(fastestLapDto.getSessionUid(), key);
-            for(int i=0; i< participantEntity.getParticipantListDtoList().size(); i++){
-                if(participantEntity.getParticipantListDtoList().get(i).isFastestLap() &&
-                        participantEntity.getParticipantListDtoList().get(i).getCarIndex() != fastestLapDto.getCarId()) {
-                    participantEntity.getParticipantListDtoList().get(i).setFastestLap(false);
-                } else if(participantEntity.getParticipantListDtoList().get(i).getCarIndex() == fastestLapDto.getCarId()){
-                    participantEntity.getParticipantListDtoList().get(i).setFastestLap(true);
-                }
-            }
-            participantRepository.save(participantEntity);
-        }
-        return ResponseEntity.ok("Object saved");
-    }
-
 
     public ResponseEntity<String> postRetirement(String key,
                                                  CarEventDto carEventDto){
@@ -113,7 +88,7 @@ public class EventService {
 
     public ResponseEntity<String> postPenalty(String key,
                                               PenaltyDto penaltyDto){
-        //todo
+
         if(participantRepository.existsBySessionUidAndKey(penaltyDto.getSessionUid(), key)){
             ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(penaltyDto.getSessionUid(), key);
             for(int i=0; i< participantEntity.getParticipantListDtoList().size(); i++){
@@ -125,4 +100,16 @@ public class EventService {
         }
         return ResponseEntity.ok("Object saved");
     }
+
+    @Override
+    public List<RaceEventEntity> getListByKey(String key){
+        return raceEventRepository.findAllByKey(key);
+    }
+
+    @Override
+    public <T extends BasicEntity> void deleteEntity(T tClass) {
+        raceEventRepository.delete((RaceEventEntity) tClass);
+    }
+
+
 }

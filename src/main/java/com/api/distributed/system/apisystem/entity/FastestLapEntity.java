@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class FastestLapEntity {
+public class FastestLapEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

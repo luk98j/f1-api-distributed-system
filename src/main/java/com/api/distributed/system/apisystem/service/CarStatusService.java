@@ -1,7 +1,9 @@
 package com.api.distributed.system.apisystem.service;
 
 import com.api.distributed.system.apisystem.dto.CarStatusList;
+import com.api.distributed.system.apisystem.entity.BasicEntity;
 import com.api.distributed.system.apisystem.entity.CarStatusEntity;
+import com.api.distributed.system.apisystem.entity.FinalClassificationEntity;
 import com.api.distributed.system.apisystem.repository.CarStatusRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class CarStatusService {
+public class CarStatusService extends BasicService{
 
     @Autowired
     private CarStatusRepository carStatusRepository;
@@ -35,5 +38,15 @@ public class CarStatusService {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    @Override
+    public List<CarStatusEntity> getListByKey(String key){
+        return carStatusRepository.findAllByKey(key);
+    }
+
+    @Override
+    public <T extends BasicEntity> void deleteEntity(T tClass) {
+        carStatusRepository.delete((CarStatusEntity) tClass);
     }
 }

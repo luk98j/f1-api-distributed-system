@@ -3,8 +3,7 @@ package com.api.distributed.system.apisystem.service;
 import com.api.distributed.system.apisystem.dto.ParticipantDto;
 import com.api.distributed.system.apisystem.dto.ParticipantExtendDto;
 import com.api.distributed.system.apisystem.dto.ParticipantListDto;
-import com.api.distributed.system.apisystem.entity.KeyEntity;
-import com.api.distributed.system.apisystem.entity.ParticipantEntity;
+import com.api.distributed.system.apisystem.entity.*;
 import com.api.distributed.system.apisystem.enums.PitStatus;
 import com.api.distributed.system.apisystem.enums.ResultStatus;
 import com.api.distributed.system.apisystem.repository.KeyRepository;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class ParticipantService {
+public class ParticipantService extends BasicService{
     @Autowired
     private ParticipantRepository participantRepository;
     @Autowired
@@ -62,9 +61,18 @@ public class ParticipantService {
         }
     }
 
+    @Override
+    public List<ParticipantEntity> getListByKey(String key){
+        return participantRepository.findAllByKey(key);
+    }
 
     private boolean checkIfParticipantTableExistsWithKeyAndSessionId(BigInteger sessionId, String sessionKey){
         return participantRepository.existsBySessionUidAndKey(sessionId, sessionKey);
+    }
+
+    @Override
+    public <T extends BasicEntity> void deleteEntity(T tClass) {
+        participantRepository.delete((ParticipantEntity) tClass);
     }
 
 }

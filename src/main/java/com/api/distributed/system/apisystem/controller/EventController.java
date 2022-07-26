@@ -11,6 +11,7 @@ import com.api.distributed.system.apisystem.repository.FastestLapRepository;
 import com.api.distributed.system.apisystem.repository.ParticipantRepository;
 import com.api.distributed.system.apisystem.repository.RaceEventRepository;
 import com.api.distributed.system.apisystem.service.EventService;
+import com.api.distributed.system.apisystem.service.FastestLapService;
 import com.api.distributed.system.apisystem.service.SessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+    @Autowired
+    private FastestLapService fastestLapService;
 
     @PostMapping("/main-event")
     public ResponseEntity<String> postSession(@RequestHeader("Unique-Key") String key,
@@ -38,7 +41,7 @@ public class EventController {
     @PostMapping("/fastest-lap")
     public ResponseEntity<String> postFastestLap(@RequestHeader("Unique-Key") String key,
                                                 @RequestBody FastestLapDto fastestLapDto){
-        return eventService.postFastestLap(key, fastestLapDto);
+        return fastestLapService.postFastestLap(key, fastestLapDto);
     }
 
     @PostMapping("/retirement")

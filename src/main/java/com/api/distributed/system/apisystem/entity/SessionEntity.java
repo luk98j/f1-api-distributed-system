@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class SessionEntity {
+public class SessionEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

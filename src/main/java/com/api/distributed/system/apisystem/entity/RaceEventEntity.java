@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class RaceEventEntity {
+public class RaceEventEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

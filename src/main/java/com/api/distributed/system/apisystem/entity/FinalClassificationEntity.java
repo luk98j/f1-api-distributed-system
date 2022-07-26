@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class FinalClassificationEntity {
+public class FinalClassificationEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

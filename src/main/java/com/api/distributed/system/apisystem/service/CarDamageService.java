@@ -1,6 +1,7 @@
 package com.api.distributed.system.apisystem.service;
 
 import com.api.distributed.system.apisystem.dto.CarDamageList;
+import com.api.distributed.system.apisystem.entity.BasicEntity;
 import com.api.distributed.system.apisystem.entity.CarDamageEntity;
 import com.api.distributed.system.apisystem.repository.CarDamageRepository;
 import lombok.AllArgsConstructor;
@@ -12,10 +13,11 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class CarDamageService {
+public class CarDamageService extends BasicService{
     @Autowired
     private final CarDamageRepository carDamageRepository;
 
@@ -34,4 +36,13 @@ public class CarDamageService {
         }
     }
 
+    @Override
+    public List<CarDamageEntity> getListByKey(String key){
+        return carDamageRepository.findAllByKey(key);
+    }
+
+    @Override
+    public <T extends BasicEntity> void deleteEntity(T tClass) {
+        carDamageRepository.delete((CarDamageEntity) tClass);
+    }
 }

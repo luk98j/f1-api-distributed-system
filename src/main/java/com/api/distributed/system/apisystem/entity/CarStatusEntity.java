@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class CarStatusEntity {
+public class CarStatusEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull

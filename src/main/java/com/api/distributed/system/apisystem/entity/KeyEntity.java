@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class KeyEntity {
+public class KeyEntity extends BasicEntity{
     @Id
     private String id;
     @NonNull
