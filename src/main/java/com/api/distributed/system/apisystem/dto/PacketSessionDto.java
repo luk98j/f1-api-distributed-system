@@ -1,4 +1,4 @@
-package com.f1distributedsystem.f1clientapp.dto.impl;
+package com.api.distributed.system.apisystem.dto;
 
 import com.api.distributed.system.apisystem.data.MarshalZone;
 import com.api.distributed.system.apisystem.data.WeatherForecastSample;

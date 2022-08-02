@@ -2,7 +2,6 @@ package com.api.distributed.system.apisystem.service;
 
 import com.api.distributed.system.apisystem.dto.FinalClasificationList;
 import com.api.distributed.system.apisystem.entity.BasicEntity;
-import com.api.distributed.system.apisystem.entity.CarDamageEntity;
 import com.api.distributed.system.apisystem.entity.FinalClassificationEntity;
 import com.api.distributed.system.apisystem.repository.FinalClassificationRepository;
 import lombok.AllArgsConstructor;
@@ -10,12 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +22,12 @@ public class CarFinalClassificationService extends BasicService{
 
     public ResponseEntity<String> postData(String key, FinalClasificationList finalClasificationList) {
         finalClassificationRepository.save(new FinalClassificationEntity(finalClasificationList.getSessionUid(), key,
-                finalClasificationList.getList(), new Timestamp(new Date().getTime())));
+                finalClasificationList.getList(), new Date()));
         return ResponseEntity.ok("Object saved");
     }
 
     public ResponseEntity<FinalClassificationEntity> getFinalClassification(BigInteger sessionUid,String key){
-        FinalClassificationEntity finalClassificationEntity = finalClassificationRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid,key);
+        FinalClassificationEntity finalClassificationEntity = finalClassificationRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid,key);
         if(finalClassificationEntity!=null){
             return ResponseEntity.ok(finalClassificationEntity);
         } else {

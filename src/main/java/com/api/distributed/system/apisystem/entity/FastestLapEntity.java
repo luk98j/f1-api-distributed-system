@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Document("lap.fastest")
 @AllArgsConstructor
@@ -25,5 +26,5 @@ public class FastestLapEntity extends BasicEntity{
     @NonNull
     private FastestLapDto fastestLapDto;
     @NonNull
-    private Timestamp timestamp;
+    private Date date;
 }

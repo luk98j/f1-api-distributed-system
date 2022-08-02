@@ -4,7 +4,6 @@ import com.api.distributed.system.apisystem.dto.FastestLapDto;
 import com.api.distributed.system.apisystem.entity.BasicEntity;
 import com.api.distributed.system.apisystem.entity.FastestLapEntity;
 import com.api.distributed.system.apisystem.entity.ParticipantEntity;
-import com.api.distributed.system.apisystem.entity.RaceEventEntity;
 import com.api.distributed.system.apisystem.repository.FastestLapRepository;
 import com.api.distributed.system.apisystem.repository.ParticipantRepository;
 import lombok.AllArgsConstructor;
@@ -32,9 +31,10 @@ public class FastestLapService extends BasicService{
     public ResponseEntity<String> postFastestLap(String key,
                                                  FastestLapDto fastestLapDto){
         fastestLapRepository.save(new FastestLapEntity(fastestLapDto.getSessionUid(),
-                key, fastestLapDto, new Timestamp(new Date().getTime())));
+                key, fastestLapDto, new Date()));
         if(participantRepository.existsBySessionUidAndKey(fastestLapDto.getSessionUid(), key)){
-            ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(fastestLapDto.getSessionUid(), key);
+            List<ParticipantEntity> participantEntityList = participantRepository.findAllBySessionUidAndKey(fastestLapDto.getSessionUid(), key);
+            ParticipantEntity participantEntity = compareTimestamps(participantEntityList);
             for(int i=0; i< participantEntity.getParticipantListDtoList().size(); i++){
                 if(participantEntity.getParticipantListDtoList().get(i).isFastestLap() &&
                         participantEntity.getParticipantListDtoList().get(i).getCarIndex() != fastestLapDto.getCarId()) {
@@ -51,5 +51,21 @@ public class FastestLapService extends BasicService{
     @Override
     public <T extends BasicEntity> void deleteEntity(T tClass) {
         fastestLapRepository.delete((FastestLapEntity) tClass);
+    }
+
+    private ParticipantEntity compareTimestamps(List<ParticipantEntity> participantEntityList){
+        if(participantEntityList.size()==1){
+            return participantEntityList.get(0);
+        } else if (participantEntityList.size() > 1){
+            ParticipantEntity firstParticipantEntity = participantEntityList.get(0);
+            for(ParticipantEntity participantEntity:participantEntityList){
+                if(firstParticipantEntity.getDate().getTime() > participantEntity.getDate().getTime() ){
+                    firstParticipantEntity = participantEntity;
+                }
+            }
+            return firstParticipantEntity;
+        } else {
+            return  participantEntityList.get(0);
+        }
     }
 }

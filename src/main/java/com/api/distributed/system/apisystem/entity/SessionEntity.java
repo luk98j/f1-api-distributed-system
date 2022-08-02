@@ -1,5 +1,6 @@
 package com.api.distributed.system.apisystem.entity;
 
+import com.api.distributed.system.apisystem.dto.PacketSessionDto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Document("session")
 @AllArgsConstructor
@@ -22,7 +24,7 @@ public class SessionEntity extends BasicEntity{
     @NonNull
     private String key;
     @NonNull
-    private com.f1distributedsystem.f1clientapp.dto.impl.PacketSessionDto packetSessionDto;
+    private PacketSessionDto packetSessionDto;
     @NonNull
-    private Timestamp timestamp;
+    private Date date;
 }

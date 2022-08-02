@@ -2,7 +2,6 @@ package com.api.distributed.system.apisystem.service;
 
 import com.api.distributed.system.apisystem.dto.CarTelemetryList;
 import com.api.distributed.system.apisystem.entity.BasicEntity;
-import com.api.distributed.system.apisystem.entity.CarStatusEntity;
 import com.api.distributed.system.apisystem.entity.CarTelemetryEntity;
 import com.api.distributed.system.apisystem.repository.CarTelemetryRepository;
 import lombok.AllArgsConstructor;
@@ -10,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -26,13 +23,13 @@ public class CarTelemetryService extends BasicService{
     public ResponseEntity<String> postStatus(String key,
                                              CarTelemetryList carTelemetryList){
         carTelemetryRepository.save(new CarTelemetryEntity(carTelemetryList.getSessionUid(),key, carTelemetryList.getCarTelemetryDtoList(),
-                new Timestamp(new Date().getTime())));
+                new Date()));
         return ResponseEntity.ok("Objected saved");
     }
 
 
     public ResponseEntity<CarTelemetryEntity> getTelemetry(BigInteger sessionUid, String key){
-        CarTelemetryEntity carTelemetryEntity = carTelemetryRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid,key);
+        CarTelemetryEntity carTelemetryEntity = carTelemetryRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid,key);
         if(carTelemetryEntity != null){
             return ResponseEntity.ok(carTelemetryEntity);
         } else {

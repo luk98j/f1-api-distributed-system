@@ -7,6 +7,7 @@ import com.api.distributed.system.apisystem.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 
 @Slf4j
 @EnableScheduling
-@Component
+@Configuration
 public class ScheduleCleaner {
     private CarDamageService carDamageService;
     private CarFinalClassificationService carFinalClassificationService;
@@ -44,7 +45,7 @@ public class ScheduleCleaner {
         this.sessionService = sessionService;
     }
 
-    @Scheduled(cron = "0 0 12 1/2 * ? *")
+    @Scheduled(cron = "0 0 12 1/2 * ?")
     private void deleteOldData(){
         List<KeyEntity> keyEntityList = keyService.getListWithAllKeysOlderThanTwoDays();
         log.info("Delete old data, find {} keys to delete", keyEntityList.size());

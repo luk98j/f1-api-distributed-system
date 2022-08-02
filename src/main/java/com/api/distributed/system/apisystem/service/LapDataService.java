@@ -29,7 +29,7 @@ public class LapDataService extends BasicService{
     public ResponseEntity<String> postData(String key,
                                           LapDataList lapDataList){
         lapDataRepository.save(new LapDataEntity(lapDataList.getSessionUid(), key, lapDataList.getLapDataDtoList(),
-                new Timestamp(new Date().getTime())));
+                new Date()));
         return ResponseEntity.ok("Object saved");
     }
 

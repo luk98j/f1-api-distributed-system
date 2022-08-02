@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Document("participant")
@@ -25,6 +26,6 @@ public class ParticipantEntity extends BasicEntity{
     @NonNull
     private List<ParticipantExtendDto> participantListDtoList;
     @NonNull
-    private Timestamp timestamp;
+    private Date date;
 
 }

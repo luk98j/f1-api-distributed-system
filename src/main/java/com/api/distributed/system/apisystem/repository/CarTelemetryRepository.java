@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CarTelemetryRepository extends MongoRepository<CarTelemetryEntity, String> {
-    CarTelemetryEntity findFirstBySessionUidAndKeyOrderByTimestampDesc(BigInteger sessionUid, String key);
+    CarTelemetryEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
     List<CarTelemetryEntity> findAllByKey(String key);
 }

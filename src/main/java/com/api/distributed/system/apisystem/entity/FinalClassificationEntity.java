@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Document("final.classification")
@@ -27,5 +28,5 @@ public class FinalClassificationEntity extends BasicEntity{
     @NonNull
     private List<CarFinalClasificationDto> list;
     @NonNull
-    private Timestamp timestamp;
+    private Date date;
 }

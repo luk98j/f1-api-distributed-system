@@ -12,9 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -37,7 +34,7 @@ public class ParticipantService extends BasicService{
         System.out.println("Recived participant");
         System.out.println(participantListDto.toString());
         if(!checkIfParticipantTableExistsWithKeyAndSessionId(participantListDto.getSessionUid(), key)){
-            keyRepository.save(new KeyEntity(participantListDto.getSessionUid(), key, new Timestamp(new Date().getTime())));
+            keyRepository.save(new KeyEntity(participantListDto.getSessionUid(), key, new Date()));
             List<ParticipantExtendDto> participantExtendDtoList = new ArrayList<>();
             for (ParticipantDto participantDto: participantListDto.getParticipantDtoList()){
                 participantExtendDtoList.add(new ParticipantExtendDto(
@@ -54,7 +51,7 @@ public class ParticipantService extends BasicService{
                 ));
             }
             participantRepository.save(new ParticipantEntity(participantListDto.getSessionUid(), key,
-                    participantExtendDtoList, new Timestamp(new Date().getTime())));
+                    participantExtendDtoList, new Date()));
             return ResponseEntity.ok("Object saved");
         } else {
             return ResponseEntity.ok("Object exists");
@@ -75,4 +72,7 @@ public class ParticipantService extends BasicService{
         participantRepository.delete((ParticipantEntity) tClass);
     }
 
+    public ResponseEntity<List<ParticipantEntity>> getLastParticipantData(BigInteger sessionUid, String key) {
+        return ResponseEntity.ok(participantRepository.findAllBySessionUidAndKey(sessionUid, key));
+    }
 }

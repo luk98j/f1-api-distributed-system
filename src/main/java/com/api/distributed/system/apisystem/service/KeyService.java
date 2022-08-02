@@ -28,7 +28,7 @@ public class KeyService extends BasicService{
         //todo
         // check if sort is working !
         if(!keyEntityList.isEmpty()){
-            keyEntityList.sort((e1, e2)->  e1.getTimestamp().compareTo(e2.getTimestamp()));
+            keyEntityList.sort((e1, e2)->  e1.getDate().compareTo(e2.getDate()));
             return ResponseEntity.ok(new KeyDto(keyEntityList.get(0).getSessionUid(), keyEntityList.get(0).getKey()));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -38,10 +38,10 @@ public class KeyService extends BasicService{
     public List<KeyEntity> getListWithAllKeysOlderThanTwoDays(){
         List<KeyEntity> keyEntityList = keyRepository.findAll();
         List<KeyEntity> keyEntityListOlderThanTwoDays = new ArrayList<>();
-        long twoDaysAgo = new Timestamp(new Date().getTime()).getTime() - TWO_DAYS;
+        long twoDaysAgo = new Date().getTime() - TWO_DAYS;
         if(!keyEntityList.isEmpty()){
             for(KeyEntity keyEntity: keyEntityList){
-                if(keyEntity.getTimestamp().getTime() < twoDaysAgo){
+                if(keyEntity.getDate().getTime() < twoDaysAgo){
                     keyEntityListOlderThanTwoDays.add(keyEntity);
                 }
             }

@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Document("car.damage")
@@ -27,6 +28,6 @@ public class CarDamageEntity extends BasicEntity{
     @NonNull
     private List<CarDamageDataDto> carDamageDataDtoList;
     @NonNull
-    private Timestamp timestamp;
+    private Date date;
 
 }

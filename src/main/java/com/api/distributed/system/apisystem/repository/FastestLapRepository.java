@@ -8,6 +8,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface FastestLapRepository extends MongoRepository<FastestLapEntity,String> {
-    FastestLapEntity  findFirstBySessionUidAndKeyOrderByTimestampDesc(BigInteger sessionUid, String key);
+    FastestLapEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
     List<FastestLapEntity> findAllByKey(String key);
 }

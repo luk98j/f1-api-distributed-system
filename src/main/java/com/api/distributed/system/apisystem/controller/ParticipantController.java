@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,5 +35,11 @@ public class ParticipantController {
     public ResponseEntity<String> postParticipant(@RequestHeader("Unique-Key") String key,
                                      @RequestBody ParticipantListDto participantListDto){
         return participantService.postParticipant(key, participantListDto);
+    }
+
+    @GetMapping("/get-last-participants")
+    public ResponseEntity<List<ParticipantEntity>> getParticipant(@RequestParam BigInteger sessionUid, @RequestParam String key){
+        System.out.println(new Date());
+        return participantService.getLastParticipantData(sessionUid, key);
     }
 }

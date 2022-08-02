@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -23,12 +22,12 @@ public class CarDamageService extends BasicService{
 
     public ResponseEntity<String> saveData(String key, CarDamageList carDamageList){
         carDamageRepository.save(new CarDamageEntity(carDamageList.getSessionUid(),key,
-                carDamageList.getCarDamageDataDtoList(), new Timestamp(new Date().getTime())));
+                carDamageList.getCarDamageDataDtoList(), new Date()));
         return ResponseEntity.ok("Object saved");
     }
 
     public ResponseEntity<CarDamageEntity> getDataAboutDamage(BigInteger sessionUid, String key){
-        CarDamageEntity carDamageEntity = carDamageRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(sessionUid, key);
+        CarDamageEntity carDamageEntity = carDamageRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key);
         if(carDamageEntity!=null){
             return ResponseEntity.ok(carDamageEntity);
         } else {

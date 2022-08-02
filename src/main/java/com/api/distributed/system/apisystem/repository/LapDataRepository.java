@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface LapDataRepository extends MongoRepository<LapDataEntity, String> {
-    LapDataEntity findFirstBySessionUidAndKeyOrderByTimestampDesc(BigInteger sessionUid, String key);
+    LapDataEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
     List<LapDataEntity> findAllByKey(String key);
 }

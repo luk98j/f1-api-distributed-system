@@ -5,7 +5,6 @@ import com.api.distributed.system.apisystem.entity.*;
 import com.api.distributed.system.apisystem.enums.PenaltyType;
 import com.api.distributed.system.apisystem.enums.PitStatus;
 import com.api.distributed.system.apisystem.enums.ResultStatus;
-import com.api.distributed.system.apisystem.repository.FastestLapRepository;
 import com.api.distributed.system.apisystem.repository.ParticipantRepository;
 import com.api.distributed.system.apisystem.repository.RaceEventRepository;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -33,14 +31,15 @@ public class EventService extends BasicService{
     public ResponseEntity<String> postSession(String key,
                                               EventDto eventDto){
         raceEventRepository.save(new RaceEventEntity(eventDto.getSessionUid(),key,
-                eventDto.getEventName(),""));
+                eventDto.getEventName(),"",new Date()));
         return ResponseEntity.ok("Object saved");
     }
 
     public ResponseEntity<String> postRetirement(String key,
                                                  CarEventDto carEventDto){
         if(participantRepository.existsBySessionUidAndKey(carEventDto.getSessionUid(), key)){
-            ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(carEventDto.getSessionUid(), key);
+            List<ParticipantEntity> participantEntityList = participantRepository.findAllBySessionUidAndKey(carEventDto.getSessionUid(), key);
+            ParticipantEntity participantEntity = compareTimestamps(participantEntityList);
             for(int i=0; i< participantEntity.getParticipantListDtoList().size(); i++){
                 if(participantEntity.getParticipantListDtoList().get(i).getCarIndex() == carEventDto.getCarId()){
                     participantEntity.getParticipantListDtoList().get(i).setResultStatus(ResultStatus.RETIRED);
@@ -55,15 +54,16 @@ public class EventService extends BasicService{
     public ResponseEntity<String> postDrs(String key,
                                           DrsDto drsDto){
         raceEventRepository.save(new RaceEventEntity(drsDto.getSessionUid(),key,
-                "drs", String.valueOf(drsDto.isEnable())));
+                "drs", String.valueOf(drsDto.isEnable()), new Date()));
         return ResponseEntity.ok("Object saved");
     }
 
-    @PostMapping("/team-pits")
-    public ResponseEntity<String> postTeamPits(@RequestHeader("Unique-Key") String key,
-                                               @RequestBody CarEventDto carEventDto){
+
+    public ResponseEntity<String> postTeamPits(String key,
+                                               CarEventDto carEventDto){
         if(participantRepository.existsBySessionUidAndKey(carEventDto.getSessionUid(), key)){
-            ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(carEventDto.getSessionUid(), key);
+            List<ParticipantEntity> participantEntityList = participantRepository.findAllBySessionUidAndKey(carEventDto.getSessionUid(), key);
+            ParticipantEntity participantEntity = compareTimestamps(participantEntityList);
             for(int i=0; i< participantEntity.getParticipantListDtoList().size(); i++){
                 if(participantEntity.getParticipantListDtoList().get(i).getCarIndex() == carEventDto.getCarId()){
                     participantEntity.getParticipantListDtoList().get(i).setPitStatus(PitStatus.PITTING);
@@ -72,7 +72,7 @@ public class EventService extends BasicService{
             participantRepository.save(participantEntity);
         }
         raceEventRepository.save(new RaceEventEntity(carEventDto.getSessionUid(),key,
-                "team-pit",String.valueOf(carEventDto.getCarId())));
+                "team-pit",String.valueOf(carEventDto.getCarId()), new Date()));
         return ResponseEntity.ok("Object saved");
     }
 
@@ -81,7 +81,7 @@ public class EventService extends BasicService{
         //todo
         //Participant table should be edited here
         raceEventRepository.save(new RaceEventEntity(carEventDto.getSessionUid(),key,
-                "race-winner",String.valueOf(carEventDto.getCarId())));
+                "race-winner",String.valueOf(carEventDto.getCarId()),new Date()));
         return ResponseEntity.ok("Object saved");
     }
 
@@ -90,7 +90,8 @@ public class EventService extends BasicService{
                                               PenaltyDto penaltyDto){
 
         if(participantRepository.existsBySessionUidAndKey(penaltyDto.getSessionUid(), key)){
-            ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByTimestampDesc(penaltyDto.getSessionUid(), key);
+            List<ParticipantEntity> participantEntityList = participantRepository.findAllBySessionUidAndKey(penaltyDto.getSessionUid(), key);
+            ParticipantEntity participantEntity = compareTimestamps(participantEntityList);
             for(int i=0; i< participantEntity.getParticipantListDtoList().size(); i++){
                 if(participantEntity.getParticipantListDtoList().get(i).getCarIndex() == penaltyDto.getCarId()){
                     participantEntity.getParticipantListDtoList().get(i).addPenalty(PenaltyType.valueOf(penaltyDto.getPenaltyType()), Integer.parseInt(penaltyDto.getTime()));
@@ -111,5 +112,19 @@ public class EventService extends BasicService{
         raceEventRepository.delete((RaceEventEntity) tClass);
     }
 
-
+    private ParticipantEntity compareTimestamps(List<ParticipantEntity> participantEntityList){
+        if(participantEntityList.size()==1){
+            return participantEntityList.get(0);
+        } else if (participantEntityList.size() > 1){
+            ParticipantEntity firstParticipantEntity = participantEntityList.get(0);
+            for(ParticipantEntity participantEntity:participantEntityList){
+                if(firstParticipantEntity.getDate().getTime() > participantEntity.getDate().getTime() ){
+                    firstParticipantEntity = participantEntity;
+                }
+            }
+            return firstParticipantEntity;
+        } else {
+            return  participantEntityList.get(0);
+        }
+    }
 }

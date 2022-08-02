@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Document("users.key")
 @AllArgsConstructor
@@ -21,5 +22,5 @@ public class KeyEntity extends BasicEntity{
     @NonNull
     private String key;
     @NonNull
-    private Timestamp timestamp;
+    private Date date;
 }

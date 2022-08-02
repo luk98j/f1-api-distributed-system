@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PacketSessionRepository extends MongoRepository<SessionEntity, String> {
-    SessionEntity findFirstBySessionUidAndKeyOrderByTimestampDesc(BigInteger sessionUid, String key);
+    SessionEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
     List<SessionEntity> findAllByKey(String key);
 }

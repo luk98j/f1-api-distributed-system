@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface FinalClassificationRepository extends MongoRepository<FinalClassificationEntity, String> {
-    FinalClassificationEntity findFirstBySessionUidAndKeyOrderByTimestampDesc(BigInteger sessionUid, String key);
+    FinalClassificationEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
     List<FinalClassificationEntity> findAllByKey(String key);
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CarDamageRepository extends MongoRepository<CarDamageEntity, String> {
-    CarDamageEntity findFirstBySessionUidAndKeyOrderByTimestampDesc(BigInteger sessionUid, String key);
+    CarDamageEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
     List<CarDamageEntity> findAllByKey(String key);
     void deleteAllByKey(String key);
 
