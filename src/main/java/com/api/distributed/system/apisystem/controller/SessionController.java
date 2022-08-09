@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/session-data")
 @AllArgsConstructor
 public class SessionController {

@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/participant-data")
 @AllArgsConstructor
 public class ParticipantController {
@@ -39,7 +40,6 @@ public class ParticipantController {
 
     @GetMapping("/get-last-participants")
     public ResponseEntity<List<ParticipantEntity>> getParticipant(@RequestParam BigInteger sessionUid, @RequestParam String key){
-        System.out.println(new Date());
         return participantService.getLastParticipantData(sessionUid, key);
     }
 }

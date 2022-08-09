@@ -19,6 +19,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/final-clasification")
 @AllArgsConstructor
+@CrossOrigin
 public class CarFinalClassificationController {
 
     @Autowired

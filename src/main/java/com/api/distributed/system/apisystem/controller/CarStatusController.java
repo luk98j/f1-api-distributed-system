@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/car-status")
 @AllArgsConstructor
 public class CarStatusController {

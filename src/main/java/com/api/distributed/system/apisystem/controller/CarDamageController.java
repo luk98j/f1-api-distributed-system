@@ -19,6 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/damage")
+@CrossOrigin
 public class CarDamageController {
 
     @Autowired

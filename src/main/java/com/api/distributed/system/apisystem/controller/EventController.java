@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/event")
 @AllArgsConstructor
 public class EventController {
@@ -53,7 +54,7 @@ public class EventController {
     @PostMapping("/drs")
     public ResponseEntity<String> postDrs(@RequestHeader("Unique-Key") String key,
                                             @RequestBody DrsDto drsDto){
-        return postDrs(key, drsDto);
+        return eventService.postDrs(key, drsDto);
     }
 
     @PostMapping("/team-pits")
