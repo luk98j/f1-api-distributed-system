@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LapDataWithOrderDto extends MainDto{
+public class LapParticipantCarDataDTO extends MainDto{
     private short carPosition;
     private String nameOfDriver;
     private int carIndex;
@@ -37,4 +37,9 @@ public class LapDataWithOrderDto extends MainDto{
     private short floorDamage;
     private short diffuserDamage;
     private short sidepodDamage;
+    private String actualTyreCompound;
+    private short tyresAgeLaps;
+    private float ersStoreEnergy;
+    private float fuelInTank;
+    private String vehicleFlag;
 }

@@ -1,6 +1,7 @@
 package com.api.distributed.system.apisystem.dto;
 
 import com.api.distributed.system.apisystem.enums.ActualTyreCompound;
+import com.api.distributed.system.apisystem.enums.VehicleFiaFlag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,6 @@ public class CarStatusDto {
     private ActualTyreCompound actualTyreCompound;
     private short tyresAgeLaps;
     private float ersStoreEnergy;
+    private float fuelInTank;
+    private VehicleFiaFlag vehicleFiaFlag;
 }

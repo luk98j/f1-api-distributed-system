@@ -8,12 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -25,6 +21,8 @@ public class LapDataService extends BasicService{
 
     @Autowired
     private CarDamageService carDamageService;
+    @Autowired
+    private CarStatusService carStatusService;
     @Autowired
     private ParticipantService participantService;
 
@@ -46,16 +44,18 @@ public class LapDataService extends BasicService{
         lapDataRepository.delete((LapDataEntity) tClass);
     }
 
-    public ResponseEntity<List<LapDataWithOrderDto>> getAllData(BigInteger sessionUid, String key) {
+    public ResponseEntity<List<LapParticipantCarDataDTO>> getAllData(BigInteger sessionUid, String key) {
         List<LapDataDto> lapDataDtoList = lapDataRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getLapDataDtoList();
         List<ParticipantExtendDto> participantEntityList = participantService.getLastParticipant(sessionUid,key);
         List<CarDamageDataDto> carDamageDataDtoList = carDamageService.getListBySessionUidAndKey(sessionUid, key);
-        List<LapDataWithOrderDto> lapDataWithOrderDtos = new ArrayList<>();
+        List<CarStatusDto> carStatusDtos = carStatusService.getCarStatusBySessionUidAndKey(sessionUid, key);
+        List<LapParticipantCarDataDTO> lapParticipantCarDataDTOS = new ArrayList<>();
         for (LapDataDto lapDataDto: lapDataDtoList) {
             ParticipantExtendDto participantExtendDto = getAccurateParticiapantData(participantEntityList, lapDataDto.getCarIndex());
             CarDamageDataDto carDamageDataDto = getAccurateCarDamageData(carDamageDataDtoList, lapDataDto.getCarIndex());
+            CarStatusDto carStatusDto = getAccurateCarStatusData(carStatusDtos, lapDataDto.getCarIndex());
             if(participantExtendDto!=null && carDamageDataDto!=null) {
-                LapDataWithOrderDto lapDataWithOrderDto = new LapDataWithOrderDto(
+                LapParticipantCarDataDTO lapParticipantCarDataDTO = new LapParticipantCarDataDTO(
                         lapDataDto.getCarPosition(),
                         participantExtendDto.getName(),
                         lapDataDto.getCarIndex(),
@@ -79,14 +79,20 @@ public class LapDataService extends BasicService{
                         carDamageDataDto.getRearWingDamage(),
                         carDamageDataDto.getFloorDamage(),
                         carDamageDataDto.getDiffuserDamage(),
-                        carDamageDataDto.getSidepodDamage());
-                lapDataWithOrderDtos.add(lapDataWithOrderDto);
+                        carDamageDataDto.getSidepodDamage(),
+                        carStatusDto.getActualTyreCompound().name(),
+                        carStatusDto.getTyresAgeLaps(),
+                        carStatusDto.getErsStoreEnergy(),
+                        carStatusDto.getFuelInTank(),
+                        carStatusDto.getVehicleFiaFlag().name()
+                        );
+                lapParticipantCarDataDTOS.add(lapParticipantCarDataDTO);
             }
 
         }
 
-        lapDataWithOrderDtos.sort((Comparator.comparingInt(LapDataWithOrderDto::getCarPosition)));
-        return ResponseEntity.ok(lapDataWithOrderDtos);
+        lapParticipantCarDataDTOS.sort((Comparator.comparingInt(LapParticipantCarDataDTO::getCarPosition)));
+        return ResponseEntity.ok(lapParticipantCarDataDTOS);
     }
 
     private ParticipantExtendDto getAccurateParticiapantData(List<ParticipantExtendDto> participantEntityList, int carId){
@@ -107,5 +113,15 @@ public class LapDataService extends BasicService{
             }
         }
         return carDamageDataDtoObject;
+    }
+
+    private CarStatusDto getAccurateCarStatusData(List<CarStatusDto> carStatusDtoList, int carId){
+        CarStatusDto carStatusDtoObject = null;
+        for(CarStatusDto carStatusDto: carStatusDtoList){
+            if(carId == carStatusDto.getCarIndex()){
+                carStatusDto = carStatusDto;
+            }
+        }
+        return carStatusDtoObject;
     }
 }

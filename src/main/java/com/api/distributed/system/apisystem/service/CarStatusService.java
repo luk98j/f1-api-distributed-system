@@ -1,5 +1,6 @@
 package com.api.distributed.system.apisystem.service;
 
+import com.api.distributed.system.apisystem.dto.CarStatusDto;
 import com.api.distributed.system.apisystem.dto.CarStatusList;
 import com.api.distributed.system.apisystem.entity.BasicEntity;
 import com.api.distributed.system.apisystem.entity.CarStatusEntity;
@@ -35,6 +36,10 @@ public class CarStatusService extends BasicService{
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    public List<CarStatusDto> getCarStatusBySessionUidAndKey(BigInteger sessionUid, String key){
+        return carStatusRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getCarStatusDtoList();
     }
 
     @Override
