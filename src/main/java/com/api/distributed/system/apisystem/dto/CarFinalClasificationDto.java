@@ -3,11 +3,13 @@ package com.api.distributed.system.apisystem.dto;
 import com.api.distributed.system.apisystem.enums.ResultStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CarFinalClasificationDto {
     private int carIndex;
     private short position;

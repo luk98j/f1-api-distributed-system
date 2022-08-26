@@ -2,15 +2,13 @@ package com.api.distributed.system.apisystem.dto;
 
 import com.api.distributed.system.apisystem.enums.Driver;
 import com.api.distributed.system.apisystem.enums.ResultStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class ParticipantDto {
     private int carIndex;
     private Driver driverId;

@@ -9,6 +9,7 @@ import com.api.distributed.system.apisystem.enums.Track;
 import com.api.distributed.system.apisystem.enums.Weather;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
@@ -18,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class PacketSessionDto extends MainDto {
     private BigInteger sessionid;
     private Weather weather;
@@ -33,4 +35,5 @@ public class PacketSessionDto extends MainDto {
     private short networkGame;
     private short numWeatherForecastSamples;
     private List<WeatherForecastSample> weatherForecastSamples;
+
 }

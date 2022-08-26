@@ -2,6 +2,7 @@ package com.api.distributed.system.apisystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
@@ -9,9 +10,10 @@ import java.math.BigInteger;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class PenaltyDto extends MainDto {
-    private final BigInteger sessionUid;
-    private final int carId;
-    private final String penaltyType;
-    private final String time;
+    private BigInteger sessionUid;
+    private int carId;
+    private String penaltyType;
+    private String time;
 }

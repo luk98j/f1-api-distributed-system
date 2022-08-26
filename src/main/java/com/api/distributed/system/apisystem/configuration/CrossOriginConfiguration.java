@@ -6,24 +6,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
 @EnableWebMvc
-public class CrossOriginConfiguration extends WebMvcConfigurerAdapter  {
+public class CrossOriginConfiguration implements WebMvcConfigurer {
 
-//        @Override
-//        public void addCorsMappings(CorsRegistry registry) {
-//            registry.addMapping("/f1-api-distributed-system/**")
-//                    .allowedOrigins("*")
-//                    .allowedMethods("GET","POST");
-//        }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

@@ -4,10 +4,7 @@ import com.api.distributed.system.apisystem.enums.Driver;
 import com.api.distributed.system.apisystem.enums.PenaltyType;
 import com.api.distributed.system.apisystem.enums.PitStatus;
 import com.api.distributed.system.apisystem.enums.ResultStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class ParticipantExtendDto {
     private int carIndex;
     private Driver driverId;

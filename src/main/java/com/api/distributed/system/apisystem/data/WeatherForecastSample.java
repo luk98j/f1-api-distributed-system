@@ -26,5 +26,6 @@ public class WeatherForecastSample {
     private short airTemperatureChange;
     private short rainPercentage;
 
-
+    public WeatherForecastSample() {
+    }
 }

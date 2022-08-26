@@ -29,7 +29,7 @@ public class KeyService extends BasicService{
         // check if sort is working !
         if(!keyEntityList.isEmpty()){
             keyEntityList.sort((e1, e2)->  e1.getDate().compareTo(e2.getDate()));
-            return ResponseEntity.ok(new KeyDto(keyEntityList.get(0).getSessionUid(), keyEntityList.get(0).getKey()));
+            return ResponseEntity.ok(new KeyDto(keyEntityList.get(0).getSessionUid().toString(), keyEntityList.get(0).getKey()));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

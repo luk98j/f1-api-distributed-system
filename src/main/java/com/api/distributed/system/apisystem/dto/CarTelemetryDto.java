@@ -1,14 +1,12 @@
 package com.api.distributed.system.apisystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @ToString
+@NoArgsConstructor
 public class CarTelemetryDto {
     private int carIndex;
     private short drs;

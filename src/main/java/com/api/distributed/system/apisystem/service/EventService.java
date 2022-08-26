@@ -9,12 +9,15 @@ import com.api.distributed.system.apisystem.repository.ParticipantRepository;
 import com.api.distributed.system.apisystem.repository.RaceEventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -126,5 +129,27 @@ public class EventService extends BasicService{
         } else {
             return  participantEntityList.get(0);
         }
+    }
+
+    public ResponseEntity<EventDto> getLastEvent(String key, BigInteger sessionUid) {
+        RaceEventEntity raceEventEntity = raceEventRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid,key);
+        if(raceEventEntity == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            String newEventKey;
+            if(raceEventEntity.getEventKey().contains("_")){
+                newEventKey = raceEventEntity.getEventKey().replace("_"," ");
+            } else {
+                newEventKey = raceEventEntity.getEventKey();
+            }
+            if(raceEventEntity.getValue().length() != 0){
+                EventExtendedDto eventExtendedDto = new EventExtendedDto(raceEventEntity.getSessionUid(),newEventKey, raceEventEntity.getValue());
+                return ResponseEntity.ok(eventExtendedDto);
+            } else {
+                EventExtendedDto eventDto = new EventExtendedDto(raceEventEntity.getSessionUid(), newEventKey, "");
+                return ResponseEntity.ok(eventDto);
+            }
+        }
+
     }
 }

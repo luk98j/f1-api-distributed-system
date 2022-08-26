@@ -4,11 +4,13 @@ package com.api.distributed.system.apisystem.dto;
 import com.api.distributed.system.apisystem.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class LapDataDto {
     private int carIndex;
     private float lastLapTime;

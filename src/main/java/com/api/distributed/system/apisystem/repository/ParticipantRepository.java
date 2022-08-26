@@ -15,5 +15,5 @@ public interface ParticipantRepository extends MongoRepository<ParticipantEntity
     Boolean existsBySessionUidAndKey(BigInteger sessionUid, String key);
     List<ParticipantEntity> findAllBySessionUidAndKey(BigInteger sessionUid, String key);
     List<ParticipantEntity> findAllByKey(String key);
-
+    ParticipantEntity findFirstBySessionUidAndKeyOrderByDateDesc(BigInteger sessionUid, String key);
 }

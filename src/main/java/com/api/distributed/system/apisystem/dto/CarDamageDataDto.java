@@ -20,4 +20,7 @@ public class CarDamageDataDto extends MainDto {
     private short floorDamage;
     private short diffuserDamage;
     private short sidepodDamage;
+
+    public CarDamageDataDto() {
+    }
 }

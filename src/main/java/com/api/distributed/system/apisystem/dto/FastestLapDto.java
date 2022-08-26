@@ -2,6 +2,7 @@ package com.api.distributed.system.apisystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
@@ -9,8 +10,9 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class FastestLapDto extends MainDto {
-    private final BigInteger sessionUid;
-    private final int carId;
-    private final String time;
+    private BigInteger sessionUid;
+    private int carId;
+    private String time;
 }

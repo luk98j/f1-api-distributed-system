@@ -11,6 +11,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class CarDamageList extends MainDto {
-    private final BigInteger sessionUid;
+    private BigInteger sessionUid;
     private List<CarDamageDataDto> carDamageDataDtoList;
+
+    public CarDamageList() {
+    }
 }

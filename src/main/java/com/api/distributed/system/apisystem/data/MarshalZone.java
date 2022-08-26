@@ -10,9 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MarshalZone {
 
-    public static final int SIZE = 5;
-
     private float zoneStart;
     public ZoneFlag zoneFlag;
 
+    public MarshalZone() {
+    }
 }

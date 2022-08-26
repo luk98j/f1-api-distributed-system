@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -73,5 +74,15 @@ public class EventController {
     public ResponseEntity<String> postPenalty(@RequestHeader("Unique-Key") String key,
                                      @RequestBody PenaltyDto penaltyDto){
         return eventService.postPenalty(key, penaltyDto);
+    }
+
+    @GetMapping("/get-event")
+    public ResponseEntity<EventDto> getLastEvent(@RequestParam BigInteger sessionUid,@RequestParam String key){
+        return eventService.getLastEvent(key, sessionUid);
+    }
+
+    @GetMapping("/get-fastest-lap")
+    public ResponseEntity<FastestLapExtendedDto> getFastestLap(@RequestParam BigInteger sessionUid, @RequestParam String key){
+        return fastestLapService.getFastestLap(sessionUid, key);
     }
 }

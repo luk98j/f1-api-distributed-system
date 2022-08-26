@@ -39,7 +39,7 @@ public class ParticipantController {
     }
 
     @GetMapping("/get-last-participants")
-    public ResponseEntity<List<ParticipantEntity>> getParticipant(@RequestParam BigInteger sessionUid, @RequestParam String key){
+    public ResponseEntity<ParticipantEntity> getParticipant(@RequestParam BigInteger sessionUid, @RequestParam String key){
         return participantService.getLastParticipantData(sessionUid, key);
     }
 }

@@ -72,7 +72,21 @@ public class ParticipantService extends BasicService{
         participantRepository.delete((ParticipantEntity) tClass);
     }
 
-    public ResponseEntity<List<ParticipantEntity>> getLastParticipantData(BigInteger sessionUid, String key) {
-        return ResponseEntity.ok(participantRepository.findAllBySessionUidAndKey(sessionUid, key));
+    public ResponseEntity<ParticipantEntity> getLastParticipantData(BigInteger sessionUid, String key) {
+        return ResponseEntity.ok(participantRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key));
+    }
+
+    public List<ParticipantExtendDto> getLastParticipant(BigInteger sessionUid, String key){
+        return participantRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getParticipantListDtoList();
+    }
+
+    public String getParticipantName(int carId, BigInteger sessionUid, String key){
+        ParticipantEntity participantEntity = participantRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid,key);
+        for(ParticipantExtendDto participantExtendDto:participantEntity.getParticipantListDtoList()){
+            if(participantExtendDto.getCarIndex() == carId){
+                return participantExtendDto.getDriverId().name();
+            }
+        }
+        return null;
     }
 }

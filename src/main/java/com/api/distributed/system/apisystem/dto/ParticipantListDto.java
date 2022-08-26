@@ -1,9 +1,6 @@
 package com.api.distributed.system.apisystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -12,7 +9,9 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
 public class ParticipantListDto extends MainDto {
-    private final BigInteger sessionUid;
-    private final List<ParticipantDto> participantDtoList;
+    private BigInteger sessionUid;
+    private List<ParticipantDto> participantDtoList;
+
 }

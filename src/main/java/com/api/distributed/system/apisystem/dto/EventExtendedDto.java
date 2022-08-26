@@ -7,13 +7,14 @@ import lombok.Setter;
 
 import java.math.BigInteger;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
-public class CarEventDto extends MainDto {
-    private BigInteger sessionUid;
-    private int carId;
+public class EventExtendedDto extends EventDto{
+    private String value;
 
-
+    public EventExtendedDto(BigInteger sessionUid, String eventName, String value) {
+        super(sessionUid, eventName);
+        this.value = value;
+    }
 }

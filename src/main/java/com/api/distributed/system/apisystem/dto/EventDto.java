@@ -2,6 +2,7 @@ package com.api.distributed.system.apisystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
@@ -9,7 +10,9 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class EventDto extends MainDto {
-    private final BigInteger sessionUid;
-    private final String eventName;
+    private BigInteger sessionUid;
+    private String eventName;
+
 }

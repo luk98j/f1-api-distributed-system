@@ -2,10 +2,7 @@ package com.api.distributed.system.apisystem.entity;
 
 import com.api.distributed.system.apisystem.dto.CarFinalClasificationDto;
 import com.api.distributed.system.apisystem.dto.LapDataDto;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
+@Getter
 public class LapDataEntity extends BasicEntity{
     @Id
     private String id;
