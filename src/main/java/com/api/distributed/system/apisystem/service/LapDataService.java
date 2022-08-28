@@ -50,49 +50,159 @@ public class LapDataService extends BasicService{
         List<CarDamageDataDto> carDamageDataDtoList = carDamageService.getListBySessionUidAndKey(sessionUid, key);
         List<CarStatusDto> carStatusDtos = carStatusService.getCarStatusBySessionUidAndKey(sessionUid, key);
         List<LapParticipantCarDataDTO> lapParticipantCarDataDTOS = new ArrayList<>();
-        for (LapDataDto lapDataDto: lapDataDtoList) {
-            ParticipantExtendDto participantExtendDto = getAccurateParticiapantData(participantEntityList, lapDataDto.getCarIndex());
-            CarDamageDataDto carDamageDataDto = getAccurateCarDamageData(carDamageDataDtoList, lapDataDto.getCarIndex());
-            CarStatusDto carStatusDto = getAccurateCarStatusData(carStatusDtos, lapDataDto.getCarIndex());
-            if(participantExtendDto!=null && carDamageDataDto!=null) {
-                LapParticipantCarDataDTO lapParticipantCarDataDTO = new LapParticipantCarDataDTO(
-                        lapDataDto.getCarPosition(),
-                        participantExtendDto.getName(),
-                        lapDataDto.getCarIndex(),
-                        Utils.changeMilisecondsToMinutes(lapDataDto.getLastLapTime()),
-                        Utils.changeMilisecondsToMinutes(lapDataDto.getCurrentLapTime()),
-                        Utils.changeMilisecondsToSeconds(lapDataDto.getSector1TimeInMS()),
-                        Utils.changeMilisecondsToSeconds(lapDataDto.getSector2TimeInMS()),
-                        lapDataDto.getCurrentLapNum(),
-                        lapDataDto.getPenalties(),
-                        lapDataDto.getWarnings(),
-                        lapDataDto.getNumUnservedDriveThroughPens(),
-                        lapDataDto.getNumUnservedStopGoPens(),
-                        lapDataDto.getDriverStatus().name(),
-                        lapDataDto.getResultStatus().name(),
-                        participantExtendDto.isFastestLap(),
-                        carDamageDataDto.getTyresWear(),
-                        carDamageDataDto.getTyresDamage(),
-                        carDamageDataDto.getBrakesDamage(),
-                        carDamageDataDto.getFrontLeftWingDamage(),
-                        carDamageDataDto.getFrontRightWingDamage(),
-                        carDamageDataDto.getRearWingDamage(),
-                        carDamageDataDto.getFloorDamage(),
-                        carDamageDataDto.getDiffuserDamage(),
-                        carDamageDataDto.getSidepodDamage(),
-                        carStatusDto.getActualTyreCompound().name(),
-                        carStatusDto.getTyresAgeLaps(),
-                        carStatusDto.getErsStoreEnergy(),
-                        carStatusDto.getFuelInTank(),
-                        carStatusDto.getVehicleFiaFlag().name()
-                        );
-                lapParticipantCarDataDTOS.add(lapParticipantCarDataDTO);
+        List<LapDataDto> lapDataResize = lapDataDtoListResize(lapDataDtoList, participantEntityList);
+        for (LapDataDto lapDataDto: lapDataResize) {
+            LapParticipantCarDataDTO lapParticipantCarDataDTO;
+            ParticipantExtendDto participantExtendDto = null;
+            CarDamageDataDto carDamageDataDto = null;
+            CarStatusDto carStatusDto = null;
+            if(participantEntityList != null){
+                participantExtendDto = getAccurateParticiapantData(participantEntityList, lapDataDto.getCarIndex());
             }
+            if(carDamageDataDtoList != null){
+                carDamageDataDto = getAccurateCarDamageData(carDamageDataDtoList, lapDataDto.getCarIndex());
+            }
+            if(carStatusDtos != null){
+                carStatusDto = getAccurateCarStatusData(carStatusDtos, lapDataDto.getCarIndex());
+            }
+            if(participantExtendDto!=null && carDamageDataDto!=null && carStatusDto!=null) {
+                lapParticipantCarDataDTO = buildCompleteLapParticipantCarDataDTO(lapDataDto, participantExtendDto, carDamageDataDto, carStatusDto);
+            } else if(carDamageDataDto == null && carStatusDto != null){
+                lapParticipantCarDataDTO = buildCompleteLapParticipantCarDataDTOWithoutCarDamageDto(lapDataDto, participantExtendDto, carStatusDto);
+            } else if(carStatusDto == null && carDamageDataDto != null){
+                lapParticipantCarDataDTO = buildCompleteLapParticipantCarDataDTOWithoutCarStatusDto(lapDataDto, participantExtendDto, carDamageDataDto);
+            } else {
+                lapParticipantCarDataDTO = buildCompleteLapParticipantCarDataDTO(lapDataDto,participantExtendDto);
+            }
+
+            lapParticipantCarDataDTOS.add(lapParticipantCarDataDTO);
 
         }
 
         lapParticipantCarDataDTOS.sort((Comparator.comparingInt(LapParticipantCarDataDTO::getCarPosition)));
         return ResponseEntity.ok(lapParticipantCarDataDTOS);
+    }
+
+    private List<LapDataDto> lapDataDtoListResize(List<LapDataDto> lapDataDtoList, List<ParticipantExtendDto> participantEntityList){
+        if(participantEntityList.size() != lapDataDtoList.size()){
+            return lapDataDtoList.subList(0, participantEntityList.size());
+        } else {
+            return lapDataDtoList;
+        }
+    }
+
+    private LapParticipantCarDataDTO buildCompleteLapParticipantCarDataDTO(LapDataDto lapDataDto, ParticipantExtendDto participantExtendDto,
+                                                                           CarDamageDataDto carDamageDataDto, CarStatusDto carStatusDto){
+        return new LapParticipantCarDataDTO(
+                lapDataDto.getCarPosition(),
+                participantExtendDto.getName(),
+                lapDataDto.getCarIndex(),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getLastLapTime()),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getCurrentLapTime()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector1TimeInMS()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector2TimeInMS()),
+                lapDataDto.getCurrentLapNum(),
+                lapDataDto.getPenalties(),
+                lapDataDto.getWarnings(),
+                lapDataDto.getNumUnservedDriveThroughPens(),
+                lapDataDto.getNumUnservedStopGoPens(),
+                lapDataDto.getDriverStatus().name(),
+                lapDataDto.getResultStatus().name(),
+                participantExtendDto.isFastestLap(),
+                carDamageDataDto.getTyresWear(),
+                carDamageDataDto.getTyresDamage(),
+                carDamageDataDto.getBrakesDamage(),
+                carDamageDataDto.getFrontLeftWingDamage(),
+                carDamageDataDto.getFrontRightWingDamage(),
+                carDamageDataDto.getRearWingDamage(),
+                carDamageDataDto.getFloorDamage(),
+                carDamageDataDto.getDiffuserDamage(),
+                carDamageDataDto.getSidepodDamage(),
+                carStatusDto.getActualTyreCompound().name(),
+                carStatusDto.getTyresAgeLaps(),
+                carStatusDto.getErsStoreEnergy(),
+                carStatusDto.getFuelInTank(),
+                carStatusDto.getVehicleFiaFlag().name()
+        );
+    }
+
+    private LapParticipantCarDataDTO buildCompleteLapParticipantCarDataDTOWithoutCarDamageDto(LapDataDto lapDataDto, ParticipantExtendDto participantExtendDto,
+                                                                                              CarStatusDto carStatusDto){
+        if(participantExtendDto == null){
+            System.out.println(lapDataDto.getCarIndex());
+        }
+        return new LapParticipantCarDataDTO(
+                lapDataDto.getCarPosition(),
+                participantExtendDto.getName(),
+                lapDataDto.getCarIndex(),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getLastLapTime()),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getCurrentLapTime()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector1TimeInMS()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector2TimeInMS()),
+                lapDataDto.getCurrentLapNum(),
+                lapDataDto.getPenalties(),
+                lapDataDto.getWarnings(),
+                lapDataDto.getNumUnservedDriveThroughPens(),
+                lapDataDto.getNumUnservedStopGoPens(),
+                lapDataDto.getDriverStatus().name(),
+                lapDataDto.getResultStatus().name(),
+                participantExtendDto.isFastestLap(),
+                carStatusDto.getActualTyreCompound().name(),
+                carStatusDto.getTyresAgeLaps(),
+                carStatusDto.getErsStoreEnergy(),
+                carStatusDto.getFuelInTank(),
+                carStatusDto.getVehicleFiaFlag().name()
+        );
+    }
+
+    private LapParticipantCarDataDTO buildCompleteLapParticipantCarDataDTOWithoutCarStatusDto(LapDataDto lapDataDto, ParticipantExtendDto participantExtendDto,
+                                                                           CarDamageDataDto carDamageDataDto){
+        return new LapParticipantCarDataDTO(
+                lapDataDto.getCarPosition(),
+                participantExtendDto.getName(),
+                lapDataDto.getCarIndex(),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getLastLapTime()),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getCurrentLapTime()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector1TimeInMS()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector2TimeInMS()),
+                lapDataDto.getCurrentLapNum(),
+                lapDataDto.getPenalties(),
+                lapDataDto.getWarnings(),
+                lapDataDto.getNumUnservedDriveThroughPens(),
+                lapDataDto.getNumUnservedStopGoPens(),
+                lapDataDto.getDriverStatus().name(),
+                lapDataDto.getResultStatus().name(),
+                participantExtendDto.isFastestLap(),
+                carDamageDataDto.getTyresWear(),
+                carDamageDataDto.getTyresDamage(),
+                carDamageDataDto.getBrakesDamage(),
+                carDamageDataDto.getFrontLeftWingDamage(),
+                carDamageDataDto.getFrontRightWingDamage(),
+                carDamageDataDto.getRearWingDamage(),
+                carDamageDataDto.getFloorDamage(),
+                carDamageDataDto.getDiffuserDamage(),
+                carDamageDataDto.getSidepodDamage()
+        );
+    }
+
+    private LapParticipantCarDataDTO buildCompleteLapParticipantCarDataDTO(LapDataDto lapDataDto, ParticipantExtendDto participantExtendDto){
+        return new LapParticipantCarDataDTO(
+                lapDataDto.getCarPosition(),
+                participantExtendDto.getName(),
+                lapDataDto.getCarIndex(),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getLastLapTime()),
+                Utils.changeMilisecondsToMinutes(lapDataDto.getCurrentLapTime()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector1TimeInMS()),
+                Utils.changeMilisecondsToSeconds(lapDataDto.getSector2TimeInMS()),
+                lapDataDto.getCurrentLapNum(),
+                lapDataDto.getPenalties(),
+                lapDataDto.getWarnings(),
+                lapDataDto.getNumUnservedDriveThroughPens(),
+                lapDataDto.getNumUnservedStopGoPens(),
+                lapDataDto.getDriverStatus().name(),
+                lapDataDto.getResultStatus().name(),
+                participantExtendDto.isFastestLap()
+        );
     }
 
     private ParticipantExtendDto getAccurateParticiapantData(List<ParticipantExtendDto> participantEntityList, int carId){
@@ -119,7 +229,7 @@ public class LapDataService extends BasicService{
         CarStatusDto carStatusDtoObject = null;
         for(CarStatusDto carStatusDto: carStatusDtoList){
             if(carId == carStatusDto.getCarIndex()){
-                carStatusDto = carStatusDto;
+                carStatusDtoObject = carStatusDto;
             }
         }
         return carStatusDtoObject;

@@ -37,7 +37,11 @@ public class CarDamageService extends BasicService{
     }
 
     public List<CarDamageDataDto> getListBySessionUidAndKey(BigInteger sessionUid, String key){
-        return carDamageRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getCarDamageDataDtoList();
+        try {
+            return carDamageRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getCarDamageDataDtoList();
+        } catch (NullPointerException e){
+            return null;
+        }
     }
 
     @Override
