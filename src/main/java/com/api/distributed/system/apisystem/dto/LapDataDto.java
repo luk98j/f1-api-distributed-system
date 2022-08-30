@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LapDataDto {
+public class LapDataDto extends MainDto{
     private int carIndex;
     private float lastLapTime;
     private float currentLapTime;

@@ -45,4 +45,12 @@ public class Utils {
             return seconds + ":" + miliseconds;
         }
     }
+
+    public static String replaceChars(String word, CharSequence fromChar,char oldChar, char newChar){
+        if(word.contains(fromChar)){
+            return word.replace(oldChar, newChar);
+        } else {
+            return word;
+        }
+    }
 }
