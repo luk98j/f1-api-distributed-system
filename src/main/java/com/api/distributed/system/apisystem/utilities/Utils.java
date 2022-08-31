@@ -18,9 +18,19 @@ public class Utils {
 
 
         if(seconds < 10){
-            return minutes + ":0" +seconds + ":" + miliseconds;
-        } else{
-            return minutes + ":" +seconds + ":" + miliseconds;
+            if(miliseconds < 100){
+                return minutes + ":0" +seconds + ":0" + miliseconds;
+            } else{
+                return minutes + ":0" +seconds + ":" + miliseconds;
+            }
+
+        } else {
+            if(miliseconds < 100){
+                return minutes + ":" + seconds + ":0" + miliseconds;
+            } else{
+                return minutes + ":" + seconds + ":" + miliseconds;
+            }
+
         }
 
     }
@@ -30,9 +40,19 @@ public class Utils {
         long seconds = (TimeUnit.MILLISECONDS.toSeconds((long) milliseconds) % 60);
         long miliseconds = (TimeUnit.MILLISECONDS.toMillis((long) milliseconds) % 1000);
         if(seconds < 10){
-            return minutes + ":0" +seconds + ":" + miliseconds;
+            if(miliseconds < 100){
+                return minutes + ":0" +seconds + ":0" + miliseconds;
+            } else{
+                return minutes + ":0" +seconds + ":" + miliseconds;
+            }
+
         } else {
-            return minutes + ":" + seconds + ":" + miliseconds;
+            if(miliseconds < 100){
+                return minutes + ":" + seconds + ":0" + miliseconds;
+            } else{
+                return minutes + ":" + seconds + ":" + miliseconds;
+            }
+
         }
     }
 

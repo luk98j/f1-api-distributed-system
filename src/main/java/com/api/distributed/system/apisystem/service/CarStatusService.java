@@ -39,7 +39,11 @@ public class CarStatusService extends BasicService{
     }
 
     public List<CarStatusDto> getCarStatusBySessionUidAndKey(BigInteger sessionUid, String key){
-        return carStatusRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getCarStatusDtoList();
+        try {
+            return carStatusRepository.findFirstBySessionUidAndKeyOrderByDateDesc(sessionUid, key).getCarStatusDtoList();
+        } catch (NullPointerException e){
+            return null;
+        }
     }
 
     @Override
